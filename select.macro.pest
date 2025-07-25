@@ -1,0 +1,6 @@
+RUST_IDENT = _{
+    ASCII_ALPHA ~ ASCII_ALPHANUMERIC*
+}
+RUST_CODE = @{
+    ANY*
+}

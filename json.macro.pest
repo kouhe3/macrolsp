@@ -1,0 +1,29 @@
+WHITESPACE = _{ " " | "\t" | "\r" | "\n" }
+json       = _{ SOI ~ (OBJ | ARR) ~ EOI }
+RUST_VAR   = @{ "_"? ~ ASCII_ALPHA ~ ASCII_ALPHANUMERIC* }
+RUST_CODE  = _{ RUST_VAR | RUST_NUM | STR_SLICE | boolean }
+IDENT      =  { RUST_VAR | STR_SLICE }
+OBJ        =  {
+    "{" ~ "}"
+  | "{" ~ KV ~ ("," ~ KV)* ~ "}"
+}
+KV         =  { IDENT ~ ":" ~ value }
+
+ARR   =  {
+    "[" ~ "]"
+  | "[" ~ value ~ ("," ~ value)* ~ "]"
+}
+value = _{ OBJ | ARR | RUST_CODE | null }
+
+boolean = { "true" | "false" }
+
+null      =  { "null" }
+STR_SLICE = ${ "\"" ~ inner ~ "\"" }
+inner     = @{ char* }
+char      =  {
+    "\\" ~ ("\"" | "\\" | "/" | "b" | "f" | "n" | "r" | "t" | "u" ~ HEX_DIGIT{4})
+  | !("\"" | "\\" | "\n") ~ ANY
+}
+RUST_NUM  = @{
+    "-"? ~ ASCII_DIGIT+ ~ ("." ~ ASCII_DIGIT+)? ~ (^"e" ~ ("+" | "-")? ~ ASCII_DIGIT+)?
+}

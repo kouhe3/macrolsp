@@ -1,0 +1,16 @@
+[package]
+name = "macrolsp"
+version = "0.1.0"
+edition = "2024"
+[[bin]]
+name = "cargo-macrofmt"
+path = "src/macrofmt.rs"
+[dependencies]
+leptos = { version = "0.8.5", features = ["csr"] }
+quote = "1.0.40"
+serde_json = "1.0.141"
+pest ="*"
+tokio = { version = "1.46.1", features = ["full"] }
+clap = { version = "4.5.41", features = ["derive"] }
+pest_derive = "2.8.1"
+regex = "1.11.1"
